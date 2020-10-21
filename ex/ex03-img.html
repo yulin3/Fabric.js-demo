@@ -1,0 +1,78 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>fabric-圖形</title>
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+
+<body>
+    <div id="canvasBox" class="canvas-box">
+        <canvas id="canvas" width="1920" height="800">请使用支持HTML5的浏览器</canvas>
+    </div>
+
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/fabric.min.js"></script>
+</body>
+
+<script>
+    let canvas = new fabric.Canvas('canvas')
+
+    let rect = new fabric.Rect({
+        left: 300,
+        top: 100,
+        width: 200, 
+        height: 100, 
+        rx: 20, // 圆角半径（x轴方向）
+        ry: 20, // 圆角半径（y轴方向）
+        fill: '#FF4D4F',
+        strokeWidth: 2,
+        stroke: "#dedede"
+    })
+    canvas.add(rect)
+
+    let triangle = new fabric.Triangle({
+        left: 100,
+        top: 400,
+        width: 200, 
+        height: 300, 
+        fill: '#FF4D4F',
+        strokeWidth: 2,
+        stroke: "#dedede"
+    })
+    canvas.add(triangle)
+
+    let circle = new fabric.Circle({
+        // type: "circle", // 對象類型
+        // width: 160, // 宽度
+        // height: 160, // 高度
+        originX: 'center', // 对象转换的水平原点('left'，'right'，'center')
+        originY: 'center', // 对象转换的垂直原点('left'，'right'，'center')
+        left: 100, // 横坐标
+        top: 100, // 纵坐标
+        fill: 'yellow', // 填充色
+        stroke: 'rgb(255,0,0)', // 线颜色
+        strokeWidth: 5, // 线宽度
+        strokeDashArray: null, // 虛線數組
+        scaleX: 1, // 水平方向缩放倍数
+        scaleY: 1, // 垂直方向缩放倍数
+        angle: 0, // 偏轉角度
+        snapAngle: null, // 设置对象在旋转时锁定的角度。比如设置值为45则对象在旋转时只能以45度为一个单位
+        opacity: 1, // 透明度
+        selectable: true, // 对象是否可选中，false时无法选中
+        hasControls: true, // 值为false时无法对对象进行旋转和拉伸
+        hasBorders: true, // 對象邊框
+        lockRotation: false, // true时无法旋转对象
+        lockMovementX: false, // true时对象无法水平移动
+        lockMovementY: false,  // true时对象无法垂直移动
+        visible: true, // 是否可見
+        radius: 80 // 半徑
+    })
+    canvas.add(circle)
+
+    fabric.Image.fromURL('../img/logo.png', (oImg) => {
+        oImg.scale(2)
+        canvas.add(oImg)
+    })
+</script>
+</html>

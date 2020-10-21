@@ -1,0 +1,31 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>fabric-文本</title>
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+
+<body>
+    <div id="canvasBox" class="canvas-box">
+        <canvas id="canvas" width="1920" height="800">请使用支持HTML5的浏览器</canvas>
+    </div>
+
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/fabric.min.js"></script>
+</body>
+
+<script>
+    let canvas = new fabric.Canvas('canvas')
+
+    let text = new fabric.Text('I love 591', { 
+        left: 100,
+        top: 100,
+        fontSize: 30, // 大小
+        fontWeight: 'bold', // 加粗字型
+        fontFamily: 'Comic Sans' // 字體家族
+    })
+    canvas.add(text)
+
+</script>
+</html>

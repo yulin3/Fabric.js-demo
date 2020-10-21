@@ -17,6 +17,10 @@ Canvas提供画布能力，但是Api不够友好，绘制复杂的图形成本�
 
 ```html
 <canvas id="canvas" width="600" height="600"></canvas>
+
+<script src="js/fabric.min.js"></script>
+<script src="js/fileSaver.min.js"></script> <!--  配套導出插件 -->
+<script src="js/canvas-toblob.js"></script> <!-- ie兼容toblob語法 -->
 ```
 
 ```javaScript
@@ -25,39 +29,34 @@ let canvas = new fabric.Canvas('canvas')
 
 ### 2、繪製直線、虛線
 ```javaScript
-let line = new fabric.Line([10, 10, 100, 100], { // 數組為起点和终点的横纵坐标
+let line = new fabric.Line([0, 0, 200, 300], { // 參數為起点和终点的横纵坐标
 　　fill: 'green', // 填充色
-　　stroke: 'green', // 笔触颜色
-　　strokeWidth: 2, // 笔触宽度
+　　stroke: 'red', // 笔触颜色
+　　strokeWidth: 10,// 笔触宽度
 })
 canvas.add(line)
 
-// 虛線-在绘制直线的基础上添加属性strokeDashArray
-let dottedLine = new fabric.Line([10, 10, 100, 100], {
-    fill: 'green',
-    stroke: 'green',
-    strokeDashArray: [3, 1] // strokeDashArray[a,b] => 每隔a个像素空b个像素
-});
-canvas.add(line)
+let dashLine = new fabric.Line([300, 0, 200, 300], { // 參數為起点和终点的横纵坐标
+　　fill: 'green', // 填充色
+　　stroke: 'red', // 笔触颜色
+　　strokeWidth: 10,// 笔触宽度
+    strokeDashArray: [3, 1]  // 虛線-strokeDashArray[a,b] => 每隔a个像素空b个像素
+})
+canvas.add(dashLine)
 ```
 
 ### 3、繪製圖形、導入svg
 ```javaScript
-let canvas = new fabric.Canvas('canvas')
-
 let circle = new fabric.Circle({
     // type: "circle", // 對象類型
-    originX: "center", // 对象转换的水平原点(‘left’，’right’，’center’)
-    originY: "center", // 对象转换的垂直原点(‘left’，’right’，’center’)
-    left: 100, // 横坐标
-    top: 100, // 纵坐标
     // width: 160, // 宽度
     // height: 160, // 高度
-    fill: "yellow", // 对象的填充色
-    // flipX: false,
-    // flipY: false,
-    // overlayFill: null,
-    stroke: "rgb(255,0,0)", // 线颜色
+    originX: 'center', // 对象转换的水平原点('left'，'right'，'center')
+    originY: 'center', // 对象转换的垂直原点('left'，'right'，'center')
+    left: 100, // 横坐标
+    top: 100, // 纵坐标
+    fill: 'yellow', // 填充色
+    stroke: 'rgb(255,0,0)', // 线颜色
     strokeWidth: 5, // 线宽度
     strokeDashArray: null, // 虛線數組
     scaleX: 1, // 水平方向缩放倍数
@@ -67,14 +66,10 @@ let circle = new fabric.Circle({
     opacity: 1, // 透明度
     selectable: true, // 对象是否可选中，false时无法选中
     hasControls: true, // 值为false时无法对对象进行旋转和拉伸
-    hasBorders: true,
-    hasRotatingPoint: true,
+    hasBorders: true, // 對象邊框
     lockRotation: false, // true时无法旋转对象
     lockMovementX: false, // true时对象无法水平移动
     lockMovementY: false,  // true时对象无法垂直移动
-    transparentCorners: true,
-    perPixelTargetFind: false,
-    shadow: null,
     visible: true, // 是否可見
     radius: 80 // 半徑
 })
@@ -124,8 +119,6 @@ canvas.add(text)
 
 ### 5、組合
 ```javaScript
-let canvas = new fabric.Canvas('canvas')
-
 fabric.Image.fromURL('../img/department.jpg', (oImg) => {
     let text = new fabric.Text('I love 591', { 
         left: oImg.width / 2,
@@ -146,40 +139,82 @@ fabric.Image.fromURL('../img/department.jpg', (oImg) => {
 })
 ```
 
-### 6、序列化
+### 6、事件
 ```javaScript
-    let canvas = new fabric.Canvas('canvas')
-    let rect = new fabric.Rect({
-        width: 100,
-        height: 100,
-        fill: 'red'
-    })
-    canvas.add(rect)
+/** 常用事件监听 **/
+// 对象移动监听
+canvas.on('object:moving', function(e) {
+    console.log('moving', e.target)
+})
 
-    // 序列化
-    let json = JSON.stringify(canvas.toJSON())
-    let svg = canvas.toSVG()
-    let obj = canvas.toObject()
-    console.log(json)
-    console.log(svg)
-    console.log(obj)
+// 对象缩放监听
+canvas.on('object:scaling', function(e) {
+    console.log('scaling', e.target)
+})
 
-    let tmpCanvas = new fabric.Canvas()
-    // 反序列化
-    tmpCanvas.loadFromJSON(json)
-    for (let k in tmpCanvas.getObjects()) {
-       canvas.add(tmpCanvas._objects[k])
-    }
+// 对象旋转监听
+canvas.on('object:rotating', function (e) {
+    console.log('rotating', e.target)
+})
 
-    fabric.loadSVGFromString(svg, (objects, options) => {
-        let obj = fabric.util.groupSVGElements(objects, options)
-        canvas.add(obj).renderAll()
-    })
+// 对象变动监听，包括位置、大小、角度等变化的监听
+canvas.on('object:modified', function(e) {
+    console.log('modified', e.target)
+})
 
-    // fabric.loadSVGFromURL('url', (objects, options) => {
-    //     let obj = fabric.util.groupSVGElements(objects, options)
-    //     canvas.add(obj).renderAll()
-    // })
+// 点击事件监听
+canvas.on('mouse:down', function (e) {
+    console.log('mouseDown', e.target)
+})
+
+canvas.on('mouse:up', function (e) {
+    console.log('mouseUp', e.target)
+})
+```
+
+### 7、序列化
+```javaScript
+let rect = new fabric.Rect({
+    width: 100,
+    height: 100,
+    fill: 'red'
+})
+canvas.add(rect)
+
+// 序列化成json、svg、object
+let json = JSON.stringify(canvas.toJSON())
+let svg = canvas.toSVG()
+let obj = canvas.toObject()
+console.log(json)
+console.log(svg)
+console.log(obj)
+
+let tmpCanvas = new fabric.Canvas()
+// 反序列化成畫布元素
+tmpCanvas.loadFromJSON(json)
+for (let k in tmpCanvas.getObjects()) {
+    canvas.add(tmpCanvas._objects[k])
+}
+
+fabric.loadSVGFromString(svg, (objects, options) => {
+    let obj = fabric.util.groupSVGElements(objects, options)
+    canvas.add(obj).renderAll()
+})
+
+// 加載url的方式
+fabric.loadSVGFromURL('url', (objects, options) => {
+    let obj = fabric.util.groupSVGElements(objects, options)
+    canvas.add(obj).renderAll()
+})
+```
+
+### 8、導出
+導出需要引入配套插件 fileSaver.js; IE下還需要引入canvas-toblob.js
+
+```javaScript
+canvas.getElement().toBlob((blob) => {
+    saveAs(blob, '591' + (new Date()).getTime() + '.png')
+})
 ```
 
 ## ie坑點

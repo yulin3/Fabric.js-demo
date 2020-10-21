@@ -1,0 +1,70 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>fabric-事件</title>
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+
+<body>
+    <div id="canvasBox" class="canvas-box">
+        <canvas id="canvas" width="1920" height="800">请使用支持HTML5的浏览器</canvas>
+    </div>
+
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/fabric.min.js"></script>
+</body>
+
+<script>
+    let canvas = new fabric.Canvas('canvas')
+    /** 常用事件监听 **/
+    // 对象移动监听
+    canvas.on('object:moving', function(e) {
+        console.log('moving', e.target)
+    })
+
+    // 对象缩放监听
+    canvas.on('object:scaling', function(e) {
+        console.log('scaling', e.target)
+    })
+
+    // 对象旋转监听
+    canvas.on('object:rotating', function (e) {
+        console.log('rotating', e.target)
+    })
+
+    // 对象变动监听，包括位置、大小、角度等变化的监听
+    canvas.on('object:modified', function(e) {
+        console.log('modified', e.target)
+    })
+
+    // 点击事件监听
+    canvas.on('mouse:down', function (e) {
+        console.log('mouseDown', e.target)
+    })
+
+    canvas.on('mouse:up', function (e) {
+        console.log('mouseUp', e.target)
+    })
+
+    
+    let circle = new fabric.Circle({
+        originX: 'center', // 对象转换的水平原点('left'，'right'，'center')
+        originY: 'center', // 对象转换的垂直原点('left'，'right'，'center')
+        left: 100, // 横坐标
+        top: 100, // 纵坐标
+        fill: 'yellow', // 填充色
+        stroke: 'rgb(255,0,0)', // 线颜色
+        strokeWidth: 5, // 线宽度
+        strokeDashArray: null, // 虛線數組
+        radius: 80 // 半徑
+    })
+    canvas.add(circle)
+
+    // 對象常用方法
+    // circle.set() // 设置对象属性，如rect.set({top: 50,left:100})
+    // circle.scale() // 缩放对象
+    // circle.rotate() // 旋转对象
+    // circle.getBoundingRect() // 返回对象的边界矩形（左，顶部，宽度，高度）的坐标
+</script>
+</html>

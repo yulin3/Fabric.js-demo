@@ -1,0 +1,37 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>fabric-線</title>
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+
+<body>
+    <div id="canvasBox" class="canvas-box">
+        <canvas id="canvas" width="1920" height="800">请使用支持HTML5的浏览器</canvas>
+    </div>
+
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/fabric.min.js"></script>
+</body>
+
+<script>
+    let canvas = new fabric.Canvas('canvas')
+
+    let line = new fabric.Line([0, 0, 200, 300], { // 參數為起点和终点的横纵坐标
+    　　fill: 'green', // 填充色
+    　　stroke: 'red', // 笔触颜色
+    　　strokeWidth: 10,// 笔触宽度
+    })
+    canvas.add(line)
+
+    let dashLine = new fabric.Line([300, 0, 200, 300], { // 參數為起点和终点的横纵坐标
+    　　fill: 'green', // 填充色
+    　　stroke: 'red', // 笔触颜色
+    　　strokeWidth: 10,// 笔触宽度
+        strokeDashArray: [3, 1]  // 虛線-strokeDashArray[a,b] => 每隔a个像素空b个像素
+    })
+    canvas.add(dashLine)
+
+</script>
+</html>

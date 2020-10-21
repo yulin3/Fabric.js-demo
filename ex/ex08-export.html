@@ -1,0 +1,50 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>fabric-導出</title>
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+
+<body>
+    <div id="canvasBox" class="canvas-box">
+        <canvas id="canvas" width="1920" height="800">请使用支持HTML5的浏览器</canvas>
+    </div>
+
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/fabric.min.js"></script>
+    <script src="../js/fileSaver.min.js"></script> <!--  配套導出插件 -->
+    <script src="../js/canvas-toblob.js"></script> <!-- ie兼容toblob語法 -->
+</body>
+
+<script>
+    let canvas = new fabric.Canvas('canvas')
+
+    fabric.Image.fromURL('../img/department.jpg', (oImg) => {
+        let text = new fabric.Text('I love 591', { 
+            left: oImg.width / 2,
+            top: oImg.height / 2,
+            originX: 'center',
+            originY: 'center',
+            fill: 'red',
+            fontSize: 88, // 大小
+            fontWeight: 'bold', // 加粗字型
+            fontFamily: 'Comic Sans' // 字體家族
+        })
+
+        let group = new fabric.Group([oImg,text], {
+            left: 50,
+            top: 50
+        })
+        canvas.add(group)
+        
+        canvas.renderAll() // 需要重新渲染才能獲取到元素
+        canvas.getElement().toBlob((blob) => {
+            // console.log(blob)
+            saveAs(blob, new Date().getTime() + '.png')
+        })
+    })
+    // 服務器也需要設置 Access-Control-Allow-Origin
+    // { crossOrigin: 'Anonymous' }
+</script>
+</html>
