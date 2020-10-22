@@ -8,12 +8,12 @@
 
 <body>
     <div id="canvasBox" class="canvas-box">
-        <canvas id="canvas" width="1920" height="800">请使用支持HTML5的浏览器</canvas>
+        <canvas id="canvas" width="1200" height="800">请使用支持HTML5的浏览器</canvas>
     </div>
 
     <script src="../js/jquery.min.js"></script>
     <script src="../js/fabric.min.js"></script>
-    <script src="../js/fileSaver.min.js"></script> <!--  配套導出插件 -->
+    <script src="../js/fileSaver.min.js"></script> <!--  導出插件 -->
     <script src="../js/canvas-toblob.js"></script> <!-- ie兼容toblob語法 -->
 </body>
 
@@ -39,11 +39,18 @@
         canvas.add(group)
         
         canvas.renderAll() // 需要重新渲染才能獲取到元素
-        canvas.getElement().toBlob((blob) => {
-            // console.log(blob)
-            saveAs(blob, new Date().getTime() + '.png')
-        })
+        // canvas.getElement().toBlob((blob) => {
+        //     saveAs(blob, new Date().getTime() + '.jpg')
+        // }, 'image/jpeg', 1)
     })
+
+    // canvas.toBlob(function(blob){
+    //     saveAs(blob, 'aa.jpg');
+    // }, 'image/jpeg', quality);
+
+    // canvas.toBlob(function(blob){
+    //     saveAs(blob, 'aa.png');
+    // }, 'image/png', quality);
     // 服務器也需要設置 Access-Control-Allow-Origin
     // { crossOrigin: 'Anonymous' }
 </script>

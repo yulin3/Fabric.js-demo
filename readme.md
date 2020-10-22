@@ -19,7 +19,7 @@ Canvas提供画布能力，但是Api不够友好，绘制复杂的图形成本�
 <canvas id="canvas" width="600" height="600"></canvas>
 
 <script src="js/fabric.min.js"></script>
-<script src="js/fileSaver.min.js"></script> <!--  配套導出插件 -->
+<script src="js/fileSaver.min.js"></script> <!--  導出插件 -->
 <script src="js/canvas-toblob.js"></script> <!-- ie兼容toblob語法 -->
 ```
 
